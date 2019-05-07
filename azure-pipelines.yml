@@ -28,7 +28,8 @@ steps:
 
     - task: ArchiveFiles@2
       inputs:
-       rootFolderOrFile: 'client/build'
+        rootFolderOrFile: 'client/build'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/ReactApp.zip'
 
     - task: PublishBuildArtifacts@1
       inputs:
