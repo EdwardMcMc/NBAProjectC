@@ -26,13 +26,13 @@ steps:
           cd ../
       displayName: 'npm install and build'
 
-  #  - task: ArchiveFiles@2
-  #    inputs:
-  #      rootFolderOrFile: 'client/build'
-  #      archiveFile: '$(Build.ArtifactStagingDirectory)/ReactApp.zip'
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: 'client/build'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/ReactApp.zip'
 
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/ReactApp.zip'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
 
