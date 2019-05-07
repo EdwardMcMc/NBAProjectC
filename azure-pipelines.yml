@@ -30,7 +30,7 @@ steps:
       inputs:
        rootFolderOrFile: '$(Build.BinariesDirectory)'
 
-    -
+    
     # - task: CopyFiles@2
     #   inputs: 
     #     contents: '**' 
