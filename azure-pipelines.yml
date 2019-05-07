@@ -26,19 +26,19 @@ steps:
           cd ../
       displayName: 'npm install and build'
 
-    - task: ArchiveFiles@2
-      inputs:
-       rootFolderOrFile: '$(Build.BinariesDirectory)'
+   # - task: ArchiveFiles@2
+    #  inputs:
+     #  rootFolderOrFile: '$(Build.BinariesDirectory)'
 
     
-    # - task: CopyFiles@2
-    #   inputs: 
-    #     contents: '**' 
-    #     targetFolder: '$(Build.ArtifactStagingDirectory)'
-    #     cleanTargetFolder: true
-    #     overWrite: true
+    - task: CopyFiles@2
+      inputs: 
+         contents: '**' 
+         targetFolder: '$(Build.ArtifactStagingDirectory)'
+         cleanTargetFolder: true
+         overWrite: true
 
-    # - task: PublishBuildArtifacts@1
-    #   inputs:
-    #       pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    #       artifactName: drop
+    - task: PublishBuildArtifacts@1
+      inputs:
+           pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+           artifactName: drop
