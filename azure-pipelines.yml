@@ -30,6 +30,7 @@ steps:
       inputs:
         rootFolderOrFile: 'client/build'
         archiveFile: '$(Build.ArtifactStagingDirectory)/artifact'
+        replaceExistingArchive: true
 
     - task: PublishBuildArtifacts@1
       inputs:
