@@ -35,9 +35,9 @@ steps:
 
     - task: CopyFiles@2
       inputs:
-      SourceFolder: 'client/build'
-      Contents: '**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/artifact'
+       SourceFolder: 'client/build'
+       Contents: '**'
+       TargetFolder: '$(Build.ArtifactStagingDirectory)/artifact'
 
     - task: PublishBuildArtifacts@1
       inputs:
