@@ -26,18 +26,18 @@ steps:
           cd ../
       displayName: 'npm install and build'
 
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: 'client/build/**'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/artifact'
-        replaceExistingArchive: true
-        archiveType: 'zip'
+#    - task: ArchiveFiles@2
+#      inputs:
+#        rootFolderOrFile: 'client/build/'
+#        archiveFile: '$(Build.ArtifactStagingDirectory)/artifact'
+#        replaceExistingArchive: true
+#        archiveType: 'zip'
 
-   # - task: CopyFiles@2
-    #  inputs:
-     #  SourceFolder: 'client/build'
-      # Contents: '**'
-       #TargetFolder: '$(Build.ArtifactStagingDirectory)/artifact'
+    - task: CopyFiles@2
+      inputs:
+       SourceFolder: 'client/build'
+       Contents: '**'
+       TargetFolder: '$(Build.ArtifactStagingDirectory)/artifact'
 
     - task: PublishBuildArtifacts@1
       inputs:
