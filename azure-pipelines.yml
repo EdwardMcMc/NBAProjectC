@@ -31,6 +31,9 @@ steps:
         rootFolderOrFile: 'client/build/'
         archiveFile: '$(Build.ArtifactStagingDirectory)/artifact'
         replaceExistingArchive: true
+        archiveType: 'zip'
+
+
 
     - task: PublishBuildArtifacts@1
       inputs:
