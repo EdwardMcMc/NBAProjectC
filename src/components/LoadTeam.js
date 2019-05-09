@@ -4,6 +4,8 @@ import Search from './Search';
 import RemoveTeam from './RemoveTeam';
 import * as _ from 'lodash';
 
+import Team from '../models/Team';
+
 class LoadTeam extends Component {
     state = {
         teams: [],
@@ -28,9 +30,7 @@ class LoadTeam extends Component {
     }
 
     getTeams = () => {
-        fetch('/api/teams')
-            .then(res => res.json())
-            .then(json => this.setState({ teams: json }));
+        Team.getAll().then(teams => this.setState({teams}));
     };
 
     handleSearch = e => {
@@ -38,8 +38,8 @@ class LoadTeam extends Component {
     };
 
     handleRemove = team => {
-        fetch(`/api/team/delete/${team._id}`);
-        this.setState({ teams: _.pull(this.state.teams, team) });
+        team.delete();
+        this.setState({ teams: _.without(this.state.teams, team) });
     };
 
     render() {
@@ -71,7 +71,7 @@ class LoadTeam extends Component {
                                 width: 100,
                                 render: team => {
                                     return (
-                                        <a href={`/team/${team._id}`}>Load</a>
+                                        <a href={`/team/${team.id}`}>Load</a>
                                     );
                                 }
                             },
