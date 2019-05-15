@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Typography, Modal, Input, message, Icon } from 'antd';
 import LoadTeam from './LoadTeam';
+import Team from '../models/Team';
 
 class Home extends Component {
     state = {
@@ -8,13 +9,17 @@ class Home extends Component {
         name: ''
     };
 
-    handleOk = () => {
+    handleOk = async () => {
         if (this.state.name === '') message.error('Please enter a team name');
         else {
             this.setState({
                 visible: false
             });
-            this.props.history.push(`/create/${this.state.name}`);
+
+            let newTeam = new Team({ name: this.state.name });
+            await newTeam.save();
+
+            this.props.history.push(`/team/${newTeam.id}`);
         }
     };
 
