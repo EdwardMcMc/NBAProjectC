@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Button, Typography, Modal, Input, message, Icon } from 'antd';
-import LoadTeam from './LoadTeam';
+import { Button, Typography, Input, message } from 'antd';
 import Team from '../models/Team';
 
 class Home extends Component {
     state = {
-        visible: false,
         name: ''
     };
 
@@ -23,19 +21,9 @@ class Home extends Component {
         }
     };
 
-    handleCancel = () => {
-        this.setState({
-            visible: false
-        });
-    };
-
     handleInput = e => {
         this.setState({ name: e.target.value });
     };
-
-    showModal() {
-        this.setState({ visible: true });
-    }
 
     render() {
         return (
@@ -49,34 +37,17 @@ class Home extends Component {
                     alignItems: 'center'
                 }}
             >
-                <Typography.Title>JJENK Predictions</Typography.Title>
+                <Typography.Title>R.P.S.</Typography.Title>
                 <div>
-                    <Button
-                        onClick={() => this.showModal()}
-                        type="primary"
-                        style={{ margin: '10px', width: '120px' }}
-                    >
-                        <Icon type="plus" />
-                        Create
-                    </Button>
-                    <Modal
-                        title="Enter team name"
-                        visible={this.state.visible}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
-                        destroyOnClose={true}
-                    >
-                        <Input
-                            autoFocus
-                            size="large"
-                            placeholder={this.props.teamName}
-                            onChange={this.handleInput}
-                            onKeyPress={e => {
-                                if (e.charCode === 13) this.handleOk();
-                            }}
-                        />
-                    </Modal>
-                    <LoadTeam />
+                    <Input
+                        autoFocus
+                        size="large"
+                        placeholder={this.props.teamName}
+                        onChange={this.handleInput}
+                        onKeyPress={e => {
+                            if (e.charCode === 13) this.handleOk();
+                        }}
+                    />
                 </div>
             </div>
         );
