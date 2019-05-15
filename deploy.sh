@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Git config
+git config --global user.email "nbaprojectc@nxk.io"
+git config --global user.name "NBAProjectC"
+
 # Build
 npm run build
 
