@@ -6,6 +6,7 @@ class Home extends Component {
     state = {
         name: '',
         found: false,
+        id: null,
         teams: [],
         loading: true
     };
@@ -19,17 +20,27 @@ class Home extends Component {
     handleOk = async () => {
         if (this.state.name === '') message.error('Please enter a team name');
         else {
-            let newTeam = new Team({ name: this.state.name });
-            await newTeam.save();
-
-            this.props.history.push(`/team/${newTeam.id}`);
+            if (this.state.id != null) {
+                this.props.history.push(`/team/${this.state.id}`);
+            } else {
+                let newTeam = new Team({ name: this.state.name });
+                await newTeam.save();
+                this.props.history.push(`/team/${newTeam.id}`);
+            }
         }
     };
 
     handleInput = e => {
-        this.state.teams.find(team => team.name === e.target.value)
-            ? this.setState({ found: true })
-            : this.setState({ found: false });
+        if (
+            !this.state.teams.find(team => {
+                if (team.name === e.target.value) {
+                    this.setState({ id: team.id });
+                    return true;
+                }
+            })
+        ) {
+            this.setState({ id: null });
+        }
         this.setState({ name: e.target.value });
     };
 
@@ -53,10 +64,16 @@ class Home extends Component {
                         onChange={this.handleInput}
                         style={{ marginRight: '10px' }}
                     />
-                    {this.state.found ? (
-                        <Button type="primary">View Team</Button>
+                    {this.state.id != null ? (
+                        <Button onClick={this.handleOk} type="primary">
+                            View Team
+                        </Button>
                     ) : (
-                        <Button loading={this.state.loading} type="primary">
+                        <Button
+                            onClick={this.handleOk}
+                            disabled={this.state.loading}
+                            type="primary"
+                        >
                             Create Team
                         </Button>
                     )}
