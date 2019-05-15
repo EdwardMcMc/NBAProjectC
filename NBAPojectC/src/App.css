@@ -1,0 +1,17 @@
+@import '~antd/dist/antd.css';
+
+.editIcon:hover {
+    cursor: pointer;
+}
+
+.App {
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    padding-bottom: 100px;
+    height: 100vh;
+}
+
+.ant-table-thead .ant-table-selection-column div {
+    display: none;
+}
