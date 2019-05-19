@@ -4,24 +4,43 @@ import Team from '../models/Team';
 
 class Home extends Component {
     state = {
-        name: ''
+        name: '',
+        found: false,
+        id: null,
+        teams: [],
+        loading: true
     };
+
+    componentDidMount() {
+        Team.getAll().then(teams => {
+            this.setState({ teams, loading: false });
+        });
+    }
 
     handleOk = async () => {
         if (this.state.name === '') message.error('Please enter a team name');
         else {
-            this.setState({
-                visible: false
-            });
-
-            let newTeam = new Team({ name: this.state.name });
-            await newTeam.save();
-
-            this.props.history.push(`/team/${newTeam.id}`);
+            if (this.state.id != null) {
+                this.props.history.push(`/team/${this.state.id}`);
+            } else {
+                let newTeam = new Team({ name: this.state.name });
+                await newTeam.save();
+                this.props.history.push(`/team/${newTeam.id}`);
+            }
         }
     };
 
     handleInput = e => {
+        if (
+            !this.state.teams.find(team => {
+                if (team.name === e.target.value) {
+                    this.setState({ id: team.id });
+                    return true;
+                }
+            })
+        ) {
+            this.setState({ id: null });
+        }
         this.setState({ name: e.target.value });
     };
 
@@ -38,16 +57,26 @@ class Home extends Component {
                 }}
             >
                 <Typography.Title>R.P.S.</Typography.Title>
-                <div>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <Input
                         autoFocus
-                        size="large"
                         placeholder={this.props.teamName}
                         onChange={this.handleInput}
-                        onKeyPress={e => {
-                            if (e.charCode === 13) this.handleOk();
-                        }}
+                        style={{ marginRight: '10px' }}
                     />
+                    {this.state.id != null ? (
+                        <Button onClick={this.handleOk} type="primary">
+                            View Team
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={this.handleOk}
+                            disabled={this.state.loading}
+                            type="primary"
+                        >
+                            Create Team
+                        </Button>
+                    )}
                 </div>
             </div>
         );
