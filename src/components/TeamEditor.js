@@ -7,7 +7,11 @@ import Fuse from 'fuse.js';
 import * as _ from 'lodash';
 import Meta from './Meta';
 
+import Team from '../models/Team';
+import Player from '../models/Player';
+
 class TeamEditor extends Component {
+    team = null;
     constructor(props) {
         super(props);
         this.state = {
@@ -26,27 +30,32 @@ class TeamEditor extends Component {
 
     componentDidMount() {
         this.getData();
-        if (this.state._id !== '') this.loadTeam();
+        this.loadTeam();
+    }
+
+    componentDidUpdate(props, state) {
+        if (
+            this.state.name !== state.name ||
+            this.state.selectedRowKeys !== state.selectedRowKeys ||
+            this.state.selectedRows !== state.selectedRows
+        )
+            this.save();
     }
 
     loadTeam = () => {
-        fetch(`/api/team/${this.state._id}`)
-            .then(res => res.json())
-            .then(json =>
-                this.setState({
-                    selectedRowKeys: json.keys,
-                    name: json.name,
-                    selectedRows: json.rows
-                })
-            );
+        Team.getWithPlayers(this.state._id).then(team => {
+            this.team = team;
+            this.setState({
+                selectedRowKeys: team.keys,
+                name: team.name,
+                selectedRows: team.rows
+            });
+        });
     };
 
     getData = () => {
-        fetch('/api/players', {
-            cache: 'force-cache'
-        })
-            .then(res => res.json())
-            .then(json => this.setState({ data: json }))
+        Player.getAll()
+            .then(data => this.setState({ data }))
             .then(() => {
                 this.setState({
                     fuse: new Fuse(this.state.data, {
@@ -72,27 +81,21 @@ class TeamEditor extends Component {
 
     save = () => {
         this.setState({ saving: true });
-        fetch('/api/team/save', {
-            method: 'POST',
-            body: JSON.stringify({
-                _id: this.state._id,
-                name: this.state.name,
-                keys: this.state.selectedRowKeys,
-                rows: this.state.selectedRows
-            }),
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => {
-                res.status === 200
-                    ? message.success('Successfully saved team')
-                    : message.error('Error saving team');
-                return res.json();
+        // Update the team object
+        this.team.name = this.state.name;
+        this.team.rows = this.state.selectedRows;
+        this.team.keys = this.state.selectedRowKeys;
+        // Save the changes
+        this.team
+            .save()
+            .then(() => {
+                this.props.history.push(`/team/${this.team.id}`);
+                this.setState({ saving: false });
             })
-            .then(json => this.props.history.push(`/team/${json._id}`))
-            .then(() => this.setState({ saving: false }));
+            .catch(err => {
+                this.setState({ saving: false });
+                message.error(`Error: ${err.message}`);
+            });
     };
 
     handleSearch = e => {
@@ -115,8 +118,8 @@ class TeamEditor extends Component {
 
     handleRemove = player => {
         this.setState({
-            selectedRowKeys: _.pull(this.state.selectedRowKeys, player.key),
-            selectedRows: _.pull(this.state.selectedRows, player)
+            selectedRowKeys: _.without(this.state.selectedRowKeys, player.key),
+            selectedRows: _.without(this.state.selectedRows, player)
         });
     };
 
@@ -173,15 +176,6 @@ class TeamEditor extends Component {
                         >
                             Predict
                         </Button>
-                        <Button
-                            onClick={this.save}
-                            disabled={this.state.saving}
-                            loading={this.state.saving}
-                            style={{ margin: '10px' }}
-                        >
-                            Save
-                        </Button>
-                        <Button style={{ margin: '10px' }}>Revert</Button>
                     </TabPane>
                 </Tabs>
             </Fragment>
