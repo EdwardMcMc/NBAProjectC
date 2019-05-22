@@ -33,22 +33,29 @@ class TeamEditor extends Component {
         this.loadTeam();
     }
 
+    componentDidUpdate(props, state) {
+        if (
+            this.state.name !== state.name ||
+            this.state.selectedRowKeys !== state.selectedRowKeys ||
+            this.state.selectedRows !== state.selectedRows
+        )
+            this.save();
+    }
+
     loadTeam = () => {
-        Team
-            .getWithPlayers(this.state._id)
-            .then(team => {
-                    this.team = team;
-                    this.setState({
-                        selectedRowKeys: team.keys,
-                        name: team.name,
-                        selectedRows: team.rows
-                    })
-                }
-            );
+        Team.getWithPlayers(this.state._id).then(team => {
+            this.team = team;
+            this.setState({
+                selectedRowKeys: team.keys,
+                name: team.name,
+                selectedRows: team.rows
+            });
+        });
     };
 
     getData = () => {
-        Player.getAll().then(data => this.setState({ data }))
+        Player.getAll()
+            .then(data => this.setState({ data }))
             .then(() => {
                 this.setState({
                     fuse: new Fuse(this.state.data, {
@@ -79,11 +86,11 @@ class TeamEditor extends Component {
         this.team.rows = this.state.selectedRows;
         this.team.keys = this.state.selectedRowKeys;
         // Save the changes
-        this.team.save()
+        this.team
+            .save()
             .then(() => {
                 this.props.history.push(`/team/${this.team.id}`);
                 this.setState({ saving: false });
-                message.success("Team saved.");
             })
             .catch(err => {
                 this.setState({ saving: false });
@@ -169,15 +176,6 @@ class TeamEditor extends Component {
                         >
                             Predict
                         </Button>
-                        <Button
-                            onClick={this.save}
-                            disabled={this.state.saving}
-                            loading={this.state.saving}
-                            style={{ margin: '10px' }}
-                        >
-                            Save
-                        </Button>
-                        <Button style={{ margin: '10px' }}>Revert</Button>
                     </TabPane>
                 </Tabs>
             </Fragment>
