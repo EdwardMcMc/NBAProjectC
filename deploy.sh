@@ -11,7 +11,7 @@ npm run build
 # Add these to a new git commit
 # Push
 git clone $DESTINATION_REPO
-cp -r build/* https://github.com/nbaprojectc/NbaProjectCQA
+cp -r build/* nbaprojectc.github.io/
 cd nbaprojectc.github.io
 git add .
 git commit -m 'site update'
