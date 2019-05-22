@@ -31,17 +31,24 @@ class Home extends Component {
     };
 
     handleInput = e => {
-        if (
-            !this.state.teams.find(team => {
-                if (team.name === e.target.value) {
-                    this.setState({ id: team.id });
-                    return true;
-                }
-            })
-        ) {
-            this.setState({ id: null });
+        // a-z 0-9, _ and spaces);
+        let reg = new RegExp(/^[\w\d\ ]+$/g);
+
+        if (reg.test(e.target.value) || e.target.value === '') {
+            if (
+                !this.state.teams.find(team => {
+                    if (
+                        team.name.toLowerCase() === e.target.value.toLowerCase()
+                    ) {
+                        this.setState({ id: team.id });
+                        return true;
+                    }
+                })
+            ) {
+                this.setState({ id: null });
+            }
+            this.setState({ name: e.target.value });
         }
-        this.setState({ name: e.target.value });
     };
 
     render() {
@@ -63,6 +70,7 @@ class Home extends Component {
                         placeholder={this.props.teamName}
                         onChange={this.handleInput}
                         style={{ marginRight: '10px' }}
+                        value={this.state.name}
                     />
                     {this.state.id != null ? (
                         <Button onClick={this.handleOk} type="primary">
