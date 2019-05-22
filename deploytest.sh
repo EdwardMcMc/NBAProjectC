@@ -11,8 +11,8 @@ npm run build
 # Add these to a new git commit
 # Push
 git clone $DESTINATION_REPO
-cp -r build/* https://github.com/nbaprojectc/NBAProjectCQA
-cd NBAProjectCQA
+cp -r build/* https://github.com/nbaprojectc/NbaProjectCQA
+cd NbaProjectCQA
 git add .
 git commit -m 'site update'
 git push origin master
