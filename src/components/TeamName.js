@@ -22,7 +22,10 @@ class TeamName extends Component {
     };
 
     handleInput = e => {
-        this.setState({ newTeamName: e.target.value });
+        let reg = new RegExp(/^[\w\d\ ]+$/g);
+        if (reg.test(e.target.value)) {
+            this.setState({ newTeamName: e.target.value });
+        }
     };
 
     showModal() {
@@ -58,6 +61,7 @@ class TeamName extends Component {
                         onKeyPress={e => {
                             if (e.charCode === 13) this.handleOk();
                         }}
+                        value={this.state.newTeamName}
                     />
                 </Modal>
             </Fragment>
