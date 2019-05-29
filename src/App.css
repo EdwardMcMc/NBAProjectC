@@ -15,3 +15,35 @@
 .ant-table-thead .ant-table-selection-column div {
     display: none;
 }
+
+.ant-checkbox-checked .ant-checkbox-inner::after {
+    position: absolute;
+    display: table;
+    border: 0px solid #fff;
+    left: 7.5px;
+    top: 0px;
+    bottom: 4;
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+    -webkit-transition: none;
+    transition: none;
+    content: '_';
+    color: white;
+    font-size: 18px;
+}
+
+.ant-checkbox::after {
+    position: absolute;
+    display: table;
+    border: 0px solid #fff;
+    left: 8.5px;
+    top: 7px;
+    bottom: 4;
+    transform: scale(1) translate(-50%, -50%);
+    opacity: 1;
+    -webkit-transition: none;
+    transition: none;
+    content: '+';
+    color: #1890ff;
+    font-size: 18px;
+}

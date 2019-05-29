@@ -10,58 +10,51 @@ class TeamTable extends Component {
                 columns={[
                     {
                         title: 'Name',
-                        dataIndex: 'Player',
-                        sorter: (a, b) => {
-                            let nameA = a.Player.toLowerCase(),
-                                nameB = b.Player.toLowerCase();
-                            if (nameA < nameB) return -1;
-                            if (nameA > nameB) return 1;
-                            return 0;
-                        },
-                        sortDirections: ['ascend', 'descend']
+                        dataIndex: 'Player'
                     },
                     {
-                        title: 'Team',
-                        dataIndex: 'Tm',
-                        sorter: (a, b) => {
-                            let TmA = a.Tm.toLowerCase(),
-                                TmB = b.Tm.toLowerCase();
-                            if (TmA < TmB) return -1;
-                            if (TmA > TmB) return 1;
-                            return 0;
-                        },
-                        sortDirections: ['ascend', 'descend']
+                        title: 'Min',
+                        dataIndex: 'MIN'
                     },
                     {
-                        title: 'Position',
-                        dataIndex: 'Pos',
-                        sorter: (a, b) => {
-                            let PosA = a.Pos.toLowerCase(),
-                                PosB = b.Pos.toLowerCase();
-                            if (PosA < PosB) return -1;
-                            if (PosA > PosB) return 1;
-                            return 0;
-                        },
-                        sortDirections: ['ascend', 'descend']
+                        title: 'FGA',
+                        dataIndex: 'FGA'
                     },
                     {
-                        title: 'Age',
-                        dataIndex: 'Age',
-                        sorter: (a, b) => a.Age - b.Age,
-                        sortDirections: ['ascend', 'descend']
+                        title: 'FG3A',
+                        dataIndex: 'FG3A'
                     },
                     {
-                        title: 'Points',
-                        dataIndex: 'PTS',
-                        sorter: (a, b) => a.PTS - b.PTS,
-                        sortDirections: ['ascend', 'descend']
+                        title: 'OREB',
+                        dataIndex: 'OREB'
                     },
                     {
-                        title: '',
-                        key: 'expand',
-                        fixed: 'right',
-                        width: 100,
-                        render: player => <PlayerInfo player={player} />
+                        title: 'DREB',
+                        dataIndex: 'AST'
+                    },
+                    {
+                        title: 'TOV',
+                        dataIndex: 'TOV'
+                    },
+                    {
+                        title: 'STL',
+                        dataIndex: 'STL'
+                    },
+                    {
+                        title: 'BLK',
+                        dataIndex: 'BLK'
+                    },
+                    {
+                        title: 'PF',
+                        dataIndex: 'PF'
+                    },
+                    {
+                        title: 'PTS',
+                        dataIndex: 'PF'
+                    },
+                    {
+                        title: 'FTA',
+                        dataIndex: 'FTA'
                     },
                     {
                         title: '',
@@ -77,9 +70,10 @@ class TeamTable extends Component {
                     }
                 ]}
                 pagination={{
-                    pageSize: 15,
-                    showTotal: (total, range) =>
-                        `${range[0]}-${range[1]} of ${total} items`
+                    hideOnSinglePage: true,
+                    pageSize: 15
+                    // showTotal: (total, range) =>
+                    //     `${range[0]}-${range[1]} of ${total} items`
                 }}
                 dataSource={this.props.selectedRows}
             />
