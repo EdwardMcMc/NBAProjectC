@@ -164,6 +164,7 @@ class TeamEditor extends Component {
                         />
                     </TabPane>
                     <TabPane tab="View Team" key="2">
+                        <Meta length={this.state.selectedRowKeys.length} />
                         <TeamTable
                             selectedRows={this.state.selectedRows}
                             handleRemove={this.handleRemove}
